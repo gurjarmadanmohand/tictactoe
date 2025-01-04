@@ -1,0 +1,112 @@
+* {
+    margin : 0;
+    padding : 0;
+}
+
+body {
+    background: linear-gradient(100deg, #bcc882, #f3bcff);
+    background-size: 300% 300%;
+    animation: gradientBackground 5s ease infinite;
+    /* background-color: #A5C882; */
+    font-family: 'Apple Chancery', cursive;
+    text-align: center;
+    color: #394C25;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    overflow: hidden;
+    height: 100vh; /* Ensure the body takes the full height of the viewport */
+    margin: 0; /
+}
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+.container {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game{
+    height : 60vmin;
+    width: 60vmin;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5vmin;
+}
+.box {
+    height : 18vmin;
+    width: 18vmin;
+    border-radius: 1rem;
+    background-color: #F7DD72;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    font-size: 8vmin;
+    color: #83a13b;
+
+}
+.box.vibrate {
+    animation: vibrate 0.5s infinite;
+}
+
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(-1px, 2px); }
+    50% { transform: translate(0px, 0px); }
+    75% { transform: translate(-1px, -1px); }
+    100% { transform: translate(0px, 0px); }
+    /* 0% { background-color: #007bff; }
+    25% { background-color: #28a745; }
+    50% { background-color: #ffc107; }
+    75% { background-color: #dc3545; }
+    100% { background-color: #007bff; } */
+}
+
+#reset {
+    background-color: #F7DD72;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 1rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    color: #394C25;
+}
+#reset:active {
+    animation: resetClick 0.3s;
+}
+
+@keyframes resetClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+.box:active {
+    animation: resetClick 0.3s;
+}
+
+@keyframes resetClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
