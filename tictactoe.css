@@ -1,112 +1,196 @@
+/* Import a futuristic font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* Reset default styles */
 * {
-    margin : 0;
-    padding : 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* Style the body with a dark, futuristic vibe */
 body {
-    background: linear-gradient(100deg, #bcc882, #f3bcff);
-    background-size: 300% 300%;
-    animation: gradientBackground 5s ease infinite;
-    /* background-color: #A5C882; */
-    font-family: 'Apple Chancery', cursive;
+    background: linear-gradient(135deg, #111, #222);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+}
+
+/* Center the game container */
+.game-container {
     text-align: center;
-    color: #394C25;
-    transition: background-color 0.3s, color 0.3s;
-    position: relative;
-    overflow: hidden;
-    height: 100vh; /* Ensure the body takes the full height of the viewport */
-    margin: 0; /
-}
-@keyframes gradientBackground {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+    padding: 2rem;
 }
 
-
-
-.container {
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Glowing title */
+.title {
+    font-size: 3rem;
+    color: #00ff87;
+    text-shadow: 0 0 1rem #00ff87;
+    margin-bottom: 1rem;
 }
-.game{
-    height : 60vmin;
-    width: 60vmin;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+
+/* Status text */
+.status {
+    font-size: 1.5rem;
+    color: #00ff87;
+    text-shadow: 0 0 0.5rem #00ff87;
+    margin-bottom: 1rem;
+}
+
+/* Define the grid with square cells */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr); /* Ensures rows match columns */
     gap: 1.5vmin;
+    width: 60vmin;
+    height: 60vmin;
+    margin: 0 auto;
 }
+
+/* Boxes fill grid cells, staying square */
 .box {
-    height : 18vmin;
-    width: 18vmin;
+    background-color: #222;
+    border: 2px solid #a3ff69;
+    box-shadow: 0 0 1rem #00ff8800;
     border-radius: 1rem;
-    background-color: #F7DD72;
-    border: none;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    /* No width or height; size comes from grid */
+}
+
+
+/* Styling for X and O symbols */
+.box span {
     font-size: 8vmin;
-    color: #83a13b;
-
+    color: #00ff87;
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
 }
-.box.vibrate {
-    animation: vibrate 0.5s infinite;
+
+/* Show symbol when box is selected */
+.box.filled span {
+    opacity: 1;
+    transform: scale(1);
 }
 
+/* Hover effect for empty boxes */
+/* .box:hover:not(.filled):not(.winner) {
+    transform: scale(1.05);
+    box-shadow: 0 0 2rem #00ff87;
+} */
+
+/* Winning boxes */
+.box.winner {
+    background-color: #00ff87;
+    box-shadow: 0 0 2rem #00ff87;
+    animation: vibrate 0.5s ease-in-out 3;
+}
+
+.box.winner span {
+    color: #222; /* Contrast for winner */
+}
+
+/* Vibration animation */
 @keyframes vibrate {
     0% { transform: translate(0); }
-    25% { transform: translate(-1px, 2px); }
-    50% { transform: translate(0px, 0px); }
-    75% { transform: translate(-1px, -1px); }
-    100% { transform: translate(0px, 0px); }
-    /* 0% { background-color: #007bff; }
-    25% { background-color: #28a745; }
-    50% { background-color: #ffc107; }
-    75% { background-color: #dc3545; }
-    100% { background-color: #007bff; } */
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
 }
 
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+.box::after, .box::before{
+
+    content: '' ;
+    position: absolute;
+    height:100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle),transparent -15%,rgb(255, 93, 93),violet,rgb(170, 52, 255),rgb(98, 98, 255),rgb(94, 255, 94),yellow,rgb(255, 188, 64),rgb(255, 93, 93));
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -10;
+    padding: 5px;
+    border-radius: 1rem;
+    animation: 3s spin linear infinite;
+}
+.box::before(){
+    filter: blur(1.5rem);
+    opacity: 5;
+}
+@keyframes spin{
+    from{
+        --angle:0deg;
+
+    }
+    to{
+      --angle:360deg;
+    }
+}
+/* Reset button styling */
 #reset {
-    background-color: #F7DD72;
-    border: none;
+    background-color: #222;
+    border: 2px solid #00ff87;
+    color: #00ff87;
     padding: 1rem 2rem;
     font-size: 1.5rem;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     margin-top: 2rem;
     cursor: pointer;
-    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
-    color: #394C25;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
+
+#reset:hover {
+    background-color: #00ff87;
+    color: #222;
+    box-shadow: 0 0 2rem #00ff87;
+}
+
 #reset:active {
-    animation: resetClick 0.3s;
+    transform: scale(0.95);
 }
 
-@keyframes resetClick {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-.box:active {
-    animation: resetClick 0.3s;
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .grid {
+        width: 80vmin;
+        height: 80vmin;
+    }
+    .box span {
+        font-size: 10vmin;
+    }
+    .title {
+        font-size: 2.5rem;
+    }
+    .status {
+        font-size: 1.2rem;
+    }
+    #reset {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
 }
 
-@keyframes resetClick {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-h1 {
-    font-size: 3rem;
-    margin-bottom: 2rem;
-}
+
+
+
+
