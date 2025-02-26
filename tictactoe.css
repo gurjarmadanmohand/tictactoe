@@ -132,6 +132,7 @@ body {
     padding: 5px;
     border-radius: 1rem;
     animation: 3s spin linear infinite;
+     filter: blur(1rem);
 }
 .box::before(){
     filter: blur(1.5rem);
