@@ -1,76 +1,75 @@
-let boxes = document.querySelectorAll(".box");
-let reset = document.querySelector("#reset");
-let turnO = true; // turn of player O
+const boxes = document.querySelectorAll('.box');
+const statusDisplay = document.querySelector('.status');
+const resetButton = document.querySelector('#reset');
+let currentPlayer = 'X';
+let gameActive = true;
+let gameState = ['', '', '', '', '', '', '', '', ''];
 
-const winPatterns = [
-    [0, 1, 2],
-    [0, 3, 6],
-    [0, 4, 8],
-    [1, 4, 7],
-    [2, 5, 8],
-    [2, 4, 6],
-    [3, 4, 5],
-    [6, 7, 8]
+const winningCombinations = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+    [0, 4, 8], [2, 4, 6]             // Diagonals
 ];
-function launchConfetti() {
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-    });
-}
 
-reset.addEventListener("click", () => {
-    boxes.forEach((box) => {
-        box.innerText = "";
-        box.style.backgroundColor = "#F7DD72";
-        box.classList.remove("vibrate");
-        box.disabled=false;
-    });
-    turnO = true;
-});
-boxes.forEach((box) => {
-    box.addEventListener("click", () => {
-        console.log("box clicked");
-        if (turnO) {
-            box.innerText = "O";
-            turnO = false;
-        }
-        else {
-            box.innerText = "X";
-            turnO = true;
-        
-        }
-    box.disabled=true;
-    checkWinner();
-    
-    });
-    
-});
+function handleBoxClick(e) {
+    const box = e.currentTarget;
+    const index = Array.from(boxes).indexOf(box);
 
-let checkWinner = () => {
-    for (let pattern of winPatterns) {
-        
-        let pos1=   boxes[pattern[0]].innerText;
-        let pos2=   boxes[pattern[1]].innerText;
-        let pos3=   boxes[pattern[2]].innerText;
-        if(pos1==pos2 && pos2==pos3 && pos1!=""){
-            console.log("Winner");
-            boxes[pattern[0]].style.backgroundColor="green";
-            boxes[pattern[1]].style.backgroundColor="green";
-            boxes[pattern[2]].style.backgroundColor="green";
-            boxes[pattern[0]].classList.add("vibrate");
-            boxes[pattern[1]].classList.add("vibrate");
-            boxes[pattern[2]].classList.add("vibrate");
-            boxes.forEach((box)=>{
-                box.disabled=true;
-               
+    if (gameState[index] !== '' || !gameActive) return;
 
-            });
-        }
-        
-    
-        
+    gameState[index] = currentPlayer;
+    box.querySelector('span').textContent = currentPlayer;
+    box.classList.add('filled');
+
+    if (checkWin()) {
+        statusDisplay.textContent = `Player ${currentPlayer} wins!`;
+        highlightWinningBoxes();
+        gameActive = false;
+        return;
     }
 
+    if (checkDraw()) {
+        statusDisplay.textContent = "It's a draw!";
+        gameActive = false;
+        return;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
 }
+
+function checkWin() {
+    return winningCombinations.some(combination => {
+        return combination.every(index => {
+            return gameState[index] === currentPlayer;
+        });
+    });
+}
+
+function highlightWinningBoxes() {
+    winningCombinations.forEach(combination => {
+        if (combination.every(index => gameState[index] === currentPlayer)) {
+            combination.forEach(index => {
+                boxes[index].classList.add('winner', 'vibrate');
+            });
+        }
+    });
+}
+
+function checkDraw() {
+    return gameState.every(cell => cell !== '');
+}
+
+function resetGame() {
+    currentPlayer = 'X';
+    gameActive = true;
+    gameState = ['', '', '', '', '', '', '', '', ''];
+    statusDisplay.textContent = `Player ${currentPlayer}'s turn`;
+    boxes.forEach(box => {
+        box.querySelector('span').textContent = '';
+        box.classList.remove('filled', 'winner', 'vibrate');
+    });
+}
+
+boxes.forEach(box => box.addEventListener('click', handleBoxClick));
+resetButton.addEventListener('click', resetGame);
