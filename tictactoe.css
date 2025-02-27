@@ -28,16 +28,16 @@ body {
 /* Glowing title */
 .title {
     font-size: 3rem;
-    color: #00ff87;
-    text-shadow: 0 0 1rem #00ff87;
+    color: #51ff00;
+    text-shadow: 0 0 1rem #a0ff13;
     margin-bottom: 1rem;
 }
 
 /* Status text */
 .status {
     font-size: 1.5rem;
-    color: #00ff87;
-    text-shadow: 0 0 0.5rem #00ff87;
+    color: #82ceef;
+    text-shadow: 0 0 0.5rem #78f4ff;
     margin-bottom: 1rem;
 }
 
@@ -132,10 +132,10 @@ body {
     padding: 5px;
     border-radius: 1rem;
     animation: 3s spin linear infinite;
-     filter: blur(1rem);
+    filter: blur(2rem);
 }
 .box::before(){
-    filter: blur(1.5rem);
+    filter: blur(1rem);
     opacity: 5;
 }
 @keyframes spin{
@@ -148,7 +148,7 @@ body {
     }
 }
 /* Reset button styling */
-#reset {
+/* #reset {
     background-color: #222;
     border: 2px solid #00ff87;
     color: #00ff87;
@@ -168,7 +168,7 @@ body {
 
 #reset:active {
     transform: scale(0.95);
-}
+} */
 
 /* Mobile responsiveness */
 @media (max-width: 600px) {
@@ -190,7 +190,37 @@ body {
         padding: 0.8rem 1.5rem;
     }
 }
-
+/* From Uiverse.io by Gautammsharma */ 
+.comic-button {
+    margin-top: 2rem;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #ff5252;
+    border: 2px solid #000;
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px #ffffff;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .comic-button:hover {
+    background-color: #fff;
+    color: #ff5252;
+    border: 2px solid #ff5252;
+    box-shadow: 5px 5px 0px #ff5252;
+  }
+  
+  .comic-button:active {
+    background-color: #fcf414;
+    box-shadow: none;
+    transform: translateY(4px);
+  }
+  
 
 
 
